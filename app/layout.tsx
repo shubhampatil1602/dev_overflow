@@ -8,6 +8,7 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/nextjs';
+import { ThemeProvider } from '@/context/ThemeProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -36,27 +37,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      appearance={{
-        elements: {
-          formButtonPrimary: 'primary-gradient',
-          footerActionLink: 'primary-text-gradient hover:text-primary-500',
-        },
-      }}
-    >
-      <html lang='en'>
-        <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <html lang='en'>
+      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+        <ClerkProvider
+          appearance={{
+            elements: {
+              formButtonPrimary: 'primary-gradient',
+              footerActionLink: 'primary-text-gradient hover:text-primary-500',
+            },
+          }}
+        >
           <SignedOut>
             <SignInButton />
           </SignedOut>
           <SignedIn>
             <UserButton />
           </SignedIn>
-          <main className='flex min-h-screen w-full items-center justify-center'>
-            {children}
-          </main>
-        </body>
-      </html>
-    </ClerkProvider>
+          <ThemeProvider>
+            <main className='flex min-h-screen w-full items-center justify-center'>
+              {children}
+            </main>
+          </ThemeProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
